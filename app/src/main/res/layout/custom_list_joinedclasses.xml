@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="25dp"
+        android:weightSum="10">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="7"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textViewName"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:textColor="#752E75"
+                android:layout_margin="0dp"
+                android:gravity="center|center_horizontal"
+                android:text="Class"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/textViewClassSection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#752E75"
+                android:gravity="center_vertical"
+                android:text=""
+                android:textSize="20sp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textViewSubject"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+
+                android:layout_margin="5dp"
+                android:gravity="center_vertical"
+                android:textColor="#752E75"
+                android:text="Subject"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/textViewId"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:textColor="#752E75"
+                android:layout_margin="5dp"
+                android:gravity="center_vertical"
+                android:text="Class ID"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

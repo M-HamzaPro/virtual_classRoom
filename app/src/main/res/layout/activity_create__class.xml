@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Create_Class">
+
+
+    <ScrollView
+        android:id="@+id/sc1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginRight="30dp"
+                android:gravity="center_horizontal"
+                android:text="Welcome Teacher"
+                android:textSize="25sp" />
+
+            <EditText
+                android:id="@+id/editTextId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="30dp"
+                android:editable="false"
+                android:hint="Class Id" />
+
+            <EditText
+                android:id="@+id/editTextName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:hint="Class Name" />
+
+            <EditText
+                android:id="@+id/editTextSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="30dp"
+                android:hint="Class Section" />
+
+            <EditText
+                android:id="@+id/editTextSubject"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="30dp"
+                android:ems="10"
+                android:hint="Subject"
+                android:inputType="textPersonName" />
+
+            <Button
+                android:id="@+id/buttonCreateClass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:text="Create Class"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/buttonIdGen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="Generate Id"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/buttonViewClass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginBottom="30dp"
+                android:layout_marginRight="30dp"
+                android:text="View Classes"
+                android:textSize="20sp"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

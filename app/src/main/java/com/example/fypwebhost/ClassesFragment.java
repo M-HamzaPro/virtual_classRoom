@@ -74,9 +74,10 @@ public class ClassesFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                    Intent intent = new Intent(getContext(), CurrentClass.class);
                     Classes classes = classesArrayList.get(position);
+                    Toast.makeText(getContext(), "Class_id"+classes.getId(), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getContext(), CurrentClass.class);
+
                     intent.putExtra("Class_name", classes.getName());
                     intent.putExtra("Class_id", classes.getId());
 

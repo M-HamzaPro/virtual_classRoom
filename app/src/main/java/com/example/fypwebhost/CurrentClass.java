@@ -25,7 +25,7 @@ public class CurrentClass extends AppCompatActivity {
         loginEmail = prefs.getString("email", "No name defined");
 
 
-        Intent intent = new Intent();
+        Intent intent = getIntent();
         classCode = intent.getStringExtra("Class_id");
 
 

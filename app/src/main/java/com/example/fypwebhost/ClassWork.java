@@ -91,7 +91,7 @@ public class ClassWork extends Fragment {
                 }
 //                progressBar.setVisibility(View.VISIBLE);
                 createAssignment();
-                Toast.makeText(getContext(), "wow", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), "wow", Toast.LENGTH_SHORT).show();
                 alertDialog.dismiss();
             }
         });

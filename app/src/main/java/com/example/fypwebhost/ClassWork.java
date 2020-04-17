@@ -98,8 +98,8 @@ public class ClassWork extends Fragment {
 
 
     }
-    private void createAssignment() {
-
+    private void createAssignment()
+    {
         final String title  = editTextTitle.getText().toString().trim();
         final String dueDate = editTextDueDate.getText().toString().trim();
         final String postDate = editTextPostDate.getText().toString().trim();

@@ -13,7 +13,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class CurrentClass extends AppCompatActivity {
     SharedPreferences prefs;
-    String classCode, loginEmail;
+    String classCode, loginEmail, userId, userName, userPassword, userType, classID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,13 +21,17 @@ public class CurrentClass extends AppCompatActivity {
         setContentView(R.layout.activity_current_class);
 
 
+
         prefs = getSharedPreferences("LogIn", MODE_PRIVATE);
         loginEmail = prefs.getString("email", "No name defined");
-
-
+        userId = prefs.getString("userId", "");
+        userName = prefs.getString("name", "");
+        userPassword = prefs.getString("password", "");
+        userType = userId = prefs.getString("userType", "");
         Intent intent = getIntent();
         classCode = intent.getStringExtra("Class_id");
-
+        classID = intent.getStringExtra("classID");
+//
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation_class);
 
@@ -51,10 +55,10 @@ public class CurrentClass extends AppCompatActivity {
                             selectedFragment = new ClassStream();
                             break;
                         case R.id.navigation_classWork:
-                            selectedFragment = new ClassWork(classCode);
+                            selectedFragment = new ClassWork(classCode, userType, classID);
                             break;
                         case R.id.navigation_members:
-                            selectedFragment = new ClassMembers();
+                            selectedFragment = new ClassMembers(classCode);
                             break;
                     }
 

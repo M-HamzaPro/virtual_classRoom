@@ -25,20 +25,4 @@
             android:textColor = "#000"
             android:textStyle = "bold" />
     </LinearLayout>
-    <LinearLayout
-        android:layout_width = "0dp"
-        android:layout_height = "match_parent"
-        android:layout_marginRight = "10dp"
-        android:layout_weight = "0.4"
-        android:gravity = "end">
-        <ImageView
-            android:layout_width = "wrap_content"
-            android:layout_height = "match_parent"
-            android:src = "@drawable/ic_settings_black_24dp" />
-        <ImageView
-            android:layout_width = "wrap_content"
-            android:layout_height = "match_parent"
-            android:layout_marginLeft = "20dp"
-            android:src = "@drawable/ic_more_vert_black_24dp" />
-    </LinearLayout>
 </LinearLayout>

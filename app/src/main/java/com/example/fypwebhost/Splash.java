@@ -13,7 +13,7 @@ public class Splash extends AppCompatActivity {
     private final int SPLASH_DISPLAY_LENGTH = 4000;
 
     SharedPreferences prefs;
-    String loginEmail;
+    String loginEmail, userType;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,7 +21,7 @@ public class Splash extends AppCompatActivity {
 
         prefs = getSharedPreferences("LogIn", MODE_PRIVATE);
         loginEmail = prefs.getString("email", "No name defined");
-
+        userType = prefs.getString("userType", "");
         Toast.makeText(Splash.this,loginEmail, Toast.LENGTH_LONG).show();
         if(loginEmail== "No name defined")
         {
@@ -39,8 +39,8 @@ public class Splash extends AppCompatActivity {
         }
         else
         {
-            char id = loginEmail.charAt(0);
-            if(id == '1')
+            String  id = userType;
+            if(id.contains("1"))
             {
                 /* New Handler to start the Menu-Activity
                  * and close this Splash-Screen after some seconds.*/

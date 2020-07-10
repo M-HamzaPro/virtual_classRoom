@@ -2,14 +2,23 @@ package com.example.fypwebhost;
 
 public class JoinedClassesModel {
 
-    private String id, name,  subject;
+    private String id, name,  subject, classID;
 
-    public JoinedClassesModel(String id, String name, String subject) {
+    public JoinedClassesModel(String id, String name, String subject, String classID) {
         this.id = id;
         this.name = name;
-
         this.subject = subject;
+        this.classID = classID;
     }
+
+    public String getClassID() {
+        return classID;
+    }
+
+    public void setClassID(String classID) {
+        this.classID = classID;
+    }
+
     public String getId() {
         return id;
     }

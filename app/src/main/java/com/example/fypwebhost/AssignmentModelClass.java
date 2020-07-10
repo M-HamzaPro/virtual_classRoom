@@ -1,12 +1,21 @@
 package com.example.fypwebhost;
 
 public class AssignmentModelClass {
-    private String title, dueDate,  postDate;
+    private String title, dueDate,  postDate, assignmentID;
 
-    public AssignmentModelClass(String title, String dueDate, String postDate) {
+    public AssignmentModelClass(String title, String dueDate, String postDate, String assignmentID) {
         this.title = title;
         this.dueDate = dueDate;
         this.postDate = postDate;
+        this.assignmentID = assignmentID;
+    }
+
+    public String getAssignmentID() {
+        return assignmentID;
+    }
+
+    public void setAssignmentID(String assignmentID) {
+        this.assignmentID = assignmentID;
     }
 
     public String getTitle() {

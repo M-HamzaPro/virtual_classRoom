@@ -16,7 +16,7 @@
 
         <TextView
             android:id="@+id/textViewTitle"
-            android:layout_width="91dp"
+            android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_margin="0dp"
             android:gravity="center|center_horizontal"

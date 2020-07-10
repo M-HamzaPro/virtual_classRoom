@@ -1,6 +1,5 @@
 package com.example.fypwebhost;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -32,65 +32,92 @@ import java.util.Map;
 
 public class HomeFragment extends Fragment {
 
+  //  EditText editTextName, editTextEmail, editTextPassword;
+    TextView  textViewName, textViewEmail,textViewPassword, textViewTest;
+    Button buttonEditProfile;
     ListView listView;
     MyAdapterUser adapter;
-    Button buttonLogout;
+
     SharedPreferences prefs;
-    String teacherEmail ;
+    String userEmail , UserId, userIdOld, userName, userPassword;
+
     private SharedPreferences.Editor mEditor;
     public static String URL="https://temp321.000webhostapp.com/connect/getProfile.php";
 
     public static ArrayList<UserModelClass> arrayListUser = new ArrayList<UserModelClass>();
 
+    public HomeFragment(String email, String userIdOld, String userName, String userPassword) {
 
-
-    public HomeFragment(String email) {
-        this.teacherEmail = email;
+        this.userEmail = email;
+        this.userIdOld = userIdOld;
+        this.userName = userName;
+        this.userPassword = userPassword;
        }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        listView = view.findViewById(R.id.mylistview);
 
+        Toast.makeText(getContext(), "checkin"+userEmail, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "checkin"+userIdOld, Toast.LENGTH_SHORT).show();
 
-        retrieveData();
-
-        buttonLogout = view.findViewById(R.id.buttonLogout);
-        buttonLogout.setOnClickListener(new View.OnClickListener() {
+        buttonEditProfile = view.findViewById(R.id.buttonEditProfile);
+        buttonEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-
-                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("LogIn", Context.MODE_PRIVATE);
-
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.clear();
-                editor.commit();
-
-               // teacherEmail = null;
-                Intent intent = new Intent(getContext(), login.class);
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(getContext(), ProfileActivity.class);
+//                intent.putExtra("name", textViewName.getText());
+//                intent.putExtra("password", textViewPassword.getText());
+//                intent.putExtra("id", UserId);
                 startActivity(intent);
             }
         });
+
+//        editTextName = view.findViewById(R.id.editTextName);
+//        editTextEmail = view.findViewById(R.id.editTextEmail);
+//        editTextPassword = view.findViewById(R.id.editTextPassword);
+//
+//        editTextEmail.setEnabled(false);
+//        editTextName.setEnabled(false);
+//        editTextPassword.setEnabled(false);
+
+        textViewTest = view.findViewById(R.id.textViewTest);
+        textViewName = view.findViewById(R.id.textViewName);
+        textViewEmail = view.findViewById(R.id.textViewEmail);
+        textViewPassword = view.findViewById(R.id.textViewPassword);
+
+        listView = view.findViewById(R.id.mylistview);
+
+        textViewName.setText(userName);
+        textViewEmail.setText(userEmail);
+        textViewPassword.setText(userPassword);
+
+       // retrieveData();               //to get person's data
+
         return view;
     }
 
 
     public void retrieveData() {
 
-        Toast.makeText(getContext(), "Method call", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(), "Method call", Toast.LENGTH_SHORT).show();
 
         arrayListUser.clear();
 
-        final String teacherName = teacherEmail;
-        final char type = teacherName.charAt(0);
-        final char userId = teacherName.charAt(1);
+ //       final String teacherName = teacherEmail;
+//        final char type = teacherName.charAt(0);
+//        final char userId1 = teacherName.charAt(1);
+//        final char userId2 = teacherName.charAt(2);
 
-        final String mail = teacherName.substring(2);
+       // final String userId = teacherName.substring(1, 3);
+       // final String mail = teacherName.substring(3);
 
-        Toast.makeText(getContext(), mail, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(), "mail check"+teacherEmail, Toast.LENGTH_SHORT).show();
+
+//        final String[] data = teacherEmail.split(",");
+//        //Toast.makeText(getContext(), "id check"+data[1], Toast.LENGTH_SHORT).show();
 
         StringRequest request = new StringRequest(Request.Method.POST, URL,
                 new Response.Listener<String>() {
@@ -102,24 +129,28 @@ public class HomeFragment extends Fragment {
                             JSONArray jsonArray=jsonObject.getJSONArray("data");
 
                             if(sucess.equals("1")){
-                                Toast.makeText(getContext(), "1", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(getContext(), "1", Toast.LENGTH_SHORT).show();
                                 for(int i=0; i< jsonArray.length(); i++){
                                     if(sucess.equals("1")){
                                         JSONObject object=jsonArray.getJSONObject(i);
-                                        String UserId = object.getString("UserId");
+                                        UserId = object.getString("UserId");
                                         String UserName =object.getString("UserName");
                                         String UserEmail =object.getString("UserEmail");
                                         String UserPassword =object.getString("UserPassword");
 
-                                        //Toast.makeText(getContext(), Class+Subject+Section, Toast.LENGTH_SHORT).show();
 
-                                        arrayListUser.add(
-                                                new UserModelClass(UserId, UserName, UserEmail, UserPassword)
-                                        );
+
+                                        textViewName.setText(UserName);
+                                        textViewEmail.setText(UserEmail);
+                                        textViewPassword.setText(UserPassword);
+
+//                                        arrayListUser.add(
+//                                                new UserModelClass(UserId, UserName, UserEmail, UserPassword)
+//                                        );
                                     }
-                                    adapter=new MyAdapterUser(getContext() ,arrayListUser);
-                                    adapter.notifyDataSetChanged();
-                                    listView.setAdapter(adapter);
+//                                    adapter=new MyAdapterUser(getContext() ,arrayListUser);
+//                                    adapter.notifyDataSetChanged();
+//                                    listView.setAdapter(adapter);
 
                                 }
                             }
@@ -131,7 +162,7 @@ public class HomeFragment extends Fragment {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -139,7 +170,7 @@ public class HomeFragment extends Fragment {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("classTeacher", String.valueOf(userId));
+                params.put("classTeacher", userIdOld);
                 return params;
             }
         };

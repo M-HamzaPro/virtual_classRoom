@@ -41,20 +41,24 @@ public class ClassesFragment extends Fragment {
 
     ListView listView;
     MyAdapter adapter;
+    ProgressBar progressBar;
 
-    String teacherEmail, newSubject, newName , class_code;
+    String userEmail, newSubject, newName , class_code, userIdOld, userName, userPassword;
 
     EditText editTextNewName, editTextNewSubject;
-    ProgressBar progressBar;
+
 
     public static String URL="https://temp321.000webhostapp.com/connect/getClass.php";
 
     public static ArrayList<Classes> classesArrayList = new ArrayList<>();
 
 
+    public ClassesFragment(String email, String userIdOld, String userName, String userPassword) {
 
-    public ClassesFragment(String email) {
-        this.teacherEmail = email;
+        this.userEmail = email;
+        this.userIdOld = userIdOld;
+        this.userName = userName;
+        this.userPassword = userPassword;
     }
 
     @Nullable
@@ -107,10 +111,15 @@ public class ClassesFragment extends Fragment {
     public void retrieveData() {
         progressBar.setVisibility(View.VISIBLE);
         classesArrayList.clear();
-        final String teacherName = teacherEmail;
-        final char type = teacherName.charAt(0);
-        final char userId = teacherName.charAt(1);
-        final String mail = teacherName.substring(2);
+//        final String teacherName = teacherEmail;
+//        final char type = teacherName.charAt(0);
+//        final char userId = teacherName.charAt(1);
+//        final String mail = teacherName.substring(2);
+
+        //final String[] data = userEmail.split(",");
+        //Toast.makeText(getContext(), "id check"+data[1], Toast.LENGTH_SHORT).show();
+        final String userId = userIdOld;
+
 
         StringRequest request = new StringRequest(Request.Method.POST, URL,
                 new Response.Listener<String>() {
@@ -155,7 +164,7 @@ public class ClassesFragment extends Fragment {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("classTeacher", String.valueOf(userId));
+                params.put("classTeacher", userId);
                 return params;
             }
         };
@@ -233,7 +242,7 @@ public class ClassesFragment extends Fragment {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String > params = new HashMap<String, String>();
 
-                final char userId = teacherEmail.charAt(1);
+                final String userId = userIdOld;
 
 
                 params.put("Name", newName);

@@ -60,12 +60,12 @@ public class MainActivity extends AppCompatActivity {
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                insertData();
+                signUpUser();
             }
         });
     }
 
-    private void insertData() {
+    private void signUpUser() {
 
         final String name = editTextName.getText().toString().trim();
         final String email = editTextEmail.getText().toString().trim();

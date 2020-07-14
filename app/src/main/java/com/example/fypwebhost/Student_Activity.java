@@ -62,7 +62,7 @@ public class Student_Activity extends AppCompatActivity {
                             selectedFragment = new JoinedClasses(loginEmail,userId, userName, userPassword);
                             break;
                         case R.id.navigation_joinClass:
-                            selectedFragment = new JoinClassFragment(loginEmail);
+                            selectedFragment = new JoinClassFragment(userId);
                             break;
                         default:
                              selectedFragment = new HomeFragment(loginEmail, userId, userName, userPassword);
@@ -84,8 +84,8 @@ public class Student_Activity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id){
-            case R.id.menu_profile:
-                Intent intent = new Intent(getApplicationContext(), Student_Activity.class);
+            case R.id.menu_compare:
+                Intent intent = new Intent(getApplicationContext(), CosineComparing.class);
                 startActivity(intent);
 
                 Toast.makeText(getApplicationContext(), "profile pressed", Toast.LENGTH_SHORT).show();

@@ -79,11 +79,11 @@ public class ClassesFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Classes classes = classesArrayList.get(position);
-                    Toast.makeText(getContext(), "Class_id"+classes.getId(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Class_id"+classes.getClassCode(), Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getContext(), CurrentClass.class);
 
                     intent.putExtra("Class_name", classes.getName());
-                    intent.putExtra("Class_id", classes.getId());
+                    intent.putExtra("Class_id", classes.getClassCode());
 
                     startActivity(intent);
             }
@@ -95,8 +95,8 @@ public class ClassesFragment extends Fragment {
 
 
                Classes classes = classesArrayList.get(position);
-               class_code = classes.getId(); // to use in sending data for update
-               showUpdateDialog(class_code, classes.getName());
+               class_code = classes.getClassCode(); // to use in sending data for update
+               showUpdateDialog(class_code, classes.getName(), classes.getClassID());
 
 
                return true;
@@ -111,13 +111,7 @@ public class ClassesFragment extends Fragment {
     public void retrieveData() {
         progressBar.setVisibility(View.VISIBLE);
         classesArrayList.clear();
-//        final String teacherName = teacherEmail;
-//        final char type = teacherName.charAt(0);
-//        final char userId = teacherName.charAt(1);
-//        final String mail = teacherName.substring(2);
 
-        //final String[] data = userEmail.split(",");
-        //Toast.makeText(getContext(), "id check"+data[1], Toast.LENGTH_SHORT).show();
         final String userId = userIdOld;
 
 
@@ -136,12 +130,14 @@ public class ClassesFragment extends Fragment {
                                 for(int i=0; i< jsonArray.length(); i++){
                                     if(sucess.equals("1")){
                                         JSONObject object=jsonArray.getJSONObject(i);
-                                        String Class_id = object.getString("Class_id");
-                                        String Class=object.getString("class");
-                                        String Subject=object.getString("subject");
+
+                                        String classID = object.getString("classId");
+                                        String classCode = object.getString("Class_id");
+                                        String className = object.getString("class");
+                                        String classSubject = object.getString("subject");
 
                                         classesArrayList.add(
-                                                new Classes(Class_id,Class ,Subject)
+                                                new Classes(classID, classCode,className ,classSubject)
                                         );
                                     }
                                     adapter=new MyAdapter(getContext() ,classesArrayList);
@@ -174,7 +170,7 @@ public class ClassesFragment extends Fragment {
         requestQueue.add(request);
     }
 
-    private void showUpdateDialog(final String classId, String className)
+    private void showUpdateDialog(final String classId, String className, final String classID)
     {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
 
@@ -187,12 +183,19 @@ public class ClassesFragment extends Fragment {
         editTextNewName = (EditText) dialogView.findViewById(R.id.editTextName);
         editTextNewSubject = (EditText) dialogView.findViewById(R.id.editTextSubject);
         final Button buttonUpdate = (Button) dialogView.findViewById(R.id.buttonUpdate);
+        final Button buttonRemove = (Button) dialogView.findViewById(R.id.buttonRemove);
 
-        dialogBuilder.setTitle("Updating Class:  "+className +" "+ classId);
+        dialogBuilder.setTitle("Manage Class:  "+className +" "+ classId);
 
         final AlertDialog alertDialog = dialogBuilder.create();
         alertDialog.show();
 
+        buttonRemove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteClass(classID);
+            }
+        });
         buttonUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -258,5 +261,45 @@ public class ClassesFragment extends Fragment {
         requestQueue.add(request);
     }
 
+    private void deleteClass(final String classId)
+    {
+            StringRequest request = new StringRequest(Request.Method.POST, "https://temp321.000webhostapp.com/connect/removeStudent.php",
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            if(response.equalsIgnoreCase("Student Removed"))
+                            {
+                                Toast.makeText(getActivity(), "Student Removed", Toast.LENGTH_SHORT).show();
+
+                            }
+                            else
+                            {
+                                Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            ){
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String > params = new HashMap<String, String>();
+
+                    params.put("classID", classId);
+
+                    return params;
+                }
+            };
+
+            RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+            requestQueue.add(request);
+
+
+    }
 
 }

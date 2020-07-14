@@ -1,10 +1,13 @@
 package com.example.fypwebhost;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -33,7 +36,16 @@ public class ClassMembers extends Fragment {
     public static ArrayList<MembersModelClass> membersArrayList = new ArrayList<>();
     MembersAdapter adapter;
     ListView listView;
-    String classCode;
+    String classCode, classID, studentID, userType;
+
+    public ClassMembers(String classCode, String classID, String userType)
+    {
+        this.classCode = classCode;
+        this.classID = classID;
+        this.userType = userType;
+    }
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -42,11 +54,32 @@ public class ClassMembers extends Fragment {
 
         retrieveMembers();
 
+        ///////////
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+            if(userType.contains("1"))
+            {
+              MembersModelClass membersModelClass = membersArrayList.get(position);
+              studentID = membersModelClass.getStudentID(); // to use in sending data for update
+              showRemoveDialog(studentID, classID);
+            }
+
+            else
+                {
+                  Toast.makeText(getContext(), "do nothing", Toast.LENGTH_SHORT).show();
+                }
+
+
+
+                return true;
+            }
+        });
+
+
         return view;
-    }
-    public ClassMembers(String classCode)
-    {
-        this.classCode = classCode;
     }
 
     public void retrieveMembers()
@@ -72,13 +105,14 @@ public class ClassMembers extends Fragment {
                                     if(success.contains("1")){
                                         JSONObject object=jsonArray.getJSONObject(i);
 //                                      Toast.makeText(getContext(), "checking ", Toast.LENGTH_SHORT).show();
+                                        String studentID = object.getString("studentID");
                                         String memberName = object.getString("memberName");
                                         String memberEmail =object.getString("memberEmail");
 
-                                        Toast.makeText(getContext(),"name"+memberName, Toast.LENGTH_SHORT).show();
-                                        Toast.makeText(getContext(),"email"+memberEmail, Toast.LENGTH_SHORT).show();
+//                                        Toast.makeText(getContext(),"name"+memberName, Toast.LENGTH_SHORT).show();
+//                                        Toast.makeText(getContext(),"email"+memberEmail, Toast.LENGTH_SHORT).show();
                                         membersArrayList.add(
-                                                new MembersModelClass(memberName,memberEmail)
+                                                new MembersModelClass(memberName,memberEmail, studentID)
                                         );
                                     }
                                     adapter=new MembersAdapter(getActivity() ,membersArrayList);
@@ -110,6 +144,81 @@ public class ClassMembers extends Fragment {
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(request);
     }
-    
-    
+
+////////
+    private void showRemoveDialog(final String studentIDR, final String classID)
+    {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
+
+        LayoutInflater inflater = getLayoutInflater();
+
+        final View dialogView = inflater.inflate(R.layout.remove_student,null);
+
+        dialogBuilder.setView(dialogView);
+
+
+        final Button buttonRemove = (Button) dialogView.findViewById(R.id.buttonRemove);
+
+        dialogBuilder.setTitle("remove student:");
+
+        final AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
+
+        buttonRemove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+
+               StringRequest request = new StringRequest(Request.Method.POST, "https://temp321.000webhostapp.com/connect/removeStudent.php",
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    if(response.equalsIgnoreCase("Student Removed"))
+                                    {
+                                        Toast.makeText(getActivity(), "Student Removed", Toast.LENGTH_SHORT).show();
+
+                                    }
+                                    else
+                                    {
+                                        Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
+                                    }
+
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    ){
+                        @Override
+                        protected Map<String, String> getParams() throws AuthFailureError {
+                            Map<String, String > params = new HashMap<String, String>();
+
+                            params.put("studentID", studentIDR);
+                            params.put("classID", classID);
+
+                            return params;
+                        }
+                    };
+
+                    RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+                    requestQueue.add(request);
+
+
+
+
+
+
+
+
+                alertDialog.dismiss();
+            }
+        });
+
+
+    }
+
 }

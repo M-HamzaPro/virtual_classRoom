@@ -1,7 +1,6 @@
 package com.example.fypwebhost;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,12 +28,11 @@ public class JoinClassFragment extends Fragment {
 
     Button buttonJoinClass;
     EditText editTextClassName, editTextClassCode;
-    SharedPreferences preferences;
-    String studentEmail;
+    String studentID;
 
-    public JoinClassFragment(String studentEmail)
+    public JoinClassFragment(String studentID)
     {
-        this.studentEmail = studentEmail.substring(2);
+        this.studentID = studentID;
     }
 
     @Nullable
@@ -42,6 +40,7 @@ public class JoinClassFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.join_class_fragment, container, false);
 
+        Toast.makeText(getContext(), "student id = "+studentID, Toast.LENGTH_SHORT).show();
         editTextClassName = view.findViewById(R.id.editTextClassName);
         editTextClassCode = view.findViewById(R.id.editTextClassCode);
 
@@ -59,7 +58,7 @@ public class JoinClassFragment extends Fragment {
 
     private void joinClass()
     {
-
+        final String studentIdPhp = studentID;
         final String className = editTextClassName.getText().toString();
         final String classCode = editTextClassCode.getText().toString();
 
@@ -70,13 +69,13 @@ public class JoinClassFragment extends Fragment {
         else
         {
 
-            StringRequest request = new StringRequest(Request.Method.POST, "https://temp321.000webhostapp.com/connect/joinClass.php",
+            StringRequest request = new StringRequest(Request.Method.POST, "https://temp321.000webhostapp.com/connect/joinClassNew.php",
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
 //                            if(response.equalsIgnoreCase("1"))
                             String finalResponse = response.trim();
-                            if(finalResponse.contains("0"))
+                            if(finalResponse.contains("yahoo"))
                             {
                                 Toast.makeText(getContext(), "Class Joined", Toast.LENGTH_SHORT).show();
 
@@ -104,7 +103,7 @@ public class JoinClassFragment extends Fragment {
                     Map<String, String > params = new HashMap<String, String>();
 
                     params.put("className", className);
-                    params.put("studentId", String.valueOf(studentEmail));
+                    params.put("studentId", studentIdPhp);
                     params.put("classCode", classCode);
 
                     return params;

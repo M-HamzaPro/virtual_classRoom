@@ -2,21 +2,29 @@ package com.example.fypwebhost;
 
 public class Classes {
 
-    private String id, name,  subject;
+    private String classID, classCode, name,  subject;
 
-    public Classes(String id, String name, String subject) {
-        this.id = id;
+    public Classes(String classID, String classCode, String name, String subject) {
+        this.classCode = classCode;
         this.name = name;
-
+        this.classID = classID;
         this.subject = subject;
     }
 
-    public String getId() {
-        return id;
+    public String getClassID() {
+        return classID;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setClassID(String classID) {
+        this.classID = classID;
+    }
+
+    public String getClassCode() {
+        return classCode;
+    }
+
+    public void setClassCode(String classCode) {
+        this.classCode = classCode;
     }
 
     public String getName() {

@@ -27,7 +27,7 @@ public class CurrentClass extends AppCompatActivity {
         userId = prefs.getString("userId", "");
         userName = prefs.getString("name", "");
         userPassword = prefs.getString("password", "");
-        userType = userId = prefs.getString("userType", "");
+        userType = prefs.getString("userType", "");
         Intent intent = getIntent();
         classCode = intent.getStringExtra("Class_id");
         classID = intent.getStringExtra("classID");
@@ -58,7 +58,7 @@ public class CurrentClass extends AppCompatActivity {
                             selectedFragment = new ClassWork(classCode, userType, classID);
                             break;
                         case R.id.navigation_members:
-                            selectedFragment = new ClassMembers(classCode);
+                            selectedFragment = new ClassMembers(classCode, classID, userType);
                             break;
                     }
 
